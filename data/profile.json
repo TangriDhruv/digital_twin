@@ -1,0 +1,102 @@
+{
+  "name": "Dhruv Tangri",
+  "title": "Data Scientist / AI Engineer",
+  "location": "Pittsburgh, PA",
+  "experience_years": 4,
+  "summary": "Data Scientist with 4 years of experience using SQL, Python, and statistical analysis to influence product and business decisions. Currently pursuing a Masters at Carnegie Mellon (GPA 3.96) while working as an AI Engineer building RAG pipelines and multi-agent systems. Skilled at bridging the gap between raw data and actionable business insight.",
+  "contact": {
+    "email": "dhruv1998tangri@gmail.com",
+    "phone": "(412) 284-8382"
+  },
+  "skills": {
+    "languages": ["Python", "SQL", "Java", "TypeScript"],
+    "frameworks": ["React", "Flask", "FastAPI", "LangGraph", "LangChain"],
+    "tools": ["Docker", "Apache Spark", "Hadoop", "Power BI", "Tableau", "NumPy", "Pandas", "Alteryx"],
+    "databases": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "FAISS", "Milvus"],
+    "cloud": ["Azure", "ADF", "Databricks"],
+    "ml": [
+      "Deep Learning",
+      "Linear Models",
+      "Multivariate Analysis",
+      "Regression",
+      "Classification",
+      "Clustering",
+      "Anomaly Detection",
+      "RAG Pipelines",
+      "Embedding Techniques",
+      "Multi-Agent Systems"
+    ]
+  },
+  "education": [
+    {
+      "degree": "Masters in Information Systems Management - Business Intelligence and Data Analytics",
+      "school": "Carnegie Mellon University, Heinz College",
+      "year": 2025,
+      "gpa": 3.96,
+      "notes": "Coursework: Distributed Systems, Machine Learning, NoSQL Database Management, Data Structures and Algorithms, Deep Learning, Applied Econometrics"
+    },
+    {
+      "degree": "Bachelor of Engineering - Mechanical Engineering",
+      "school": "Vellore Institute of Technology",
+      "year": 2020,
+      "gpa": 3.97,
+      "notes": "Strong quantitative foundation; transitioned into data science and analytics post-graduation"
+    }
+  ],
+  "work_history": [
+    {
+      "company": "Analytics 4 Everyone",
+      "role": "AI Engineer",
+      "years": "September 2025 - Present",
+      "location": "Pittsburgh, PA",
+      "summary": "Building and productionizing RAG pipelines and multi-agent AI systems for PDF and video knowledge bases.",
+      "impact": "Improved ingestion throughput by 33% and retrieval accuracy by 30% via multi-threaded concurrent chunking and Milvus integration. Orchestrated retrieval, summarization, and reasoning agents using LangGraph; containerized via Docker."
+    },
+    {
+      "company": "Goldman Sachs (via KPMG)",
+      "role": "Data Scientist",
+      "years": "December 2023 - August 2024",
+      "location": "Bengaluru, India",
+      "summary": "Primary analytics contact for client/vendor onboarding and risk & compliance operations.",
+      "impact": "Reduced onboarding time by 75%. Analyzed 50k+ tickets using SQL + Python, improving case resolution rates by 22% and reducing throughput bottlenecks by 28%. Reduced SLA breaches by 15% in one quarter."
+    },
+    {
+      "company": "KPMG",
+      "role": "Data Scientist / Consultant",
+      "years": "October 2020 - August 2024",
+      "location": "Bengaluru, India",
+      "summary": "Designed data models, built BI dashboards, and applied ML for anomaly detection across finance, HR, and operations clients.",
+      "impact": "Designed scalable data models powering 900+ BI reports with 40% query latency improvement. Reduced SQL processing time from 3 hours to 1 hour. Applied Isolation Forest on 1.2M+ financial records achieving 95% anomaly-detection accuracy, saving 40+ hours of manual audit work."
+    }
+  ],
+  "side_projects": [
+    {
+      "name": "RegHealth Navigator",
+      "description": "Full-stack app for healthcare professionals to analyze Medicare regulations using semantic search and AI-powered document comparison. Incremental processing system that auto-fetches Federal Register regulations.",
+      "tech_stack": ["React", "Flask", "FAISS", "OpenAI"],
+      "impact": "Reduced processing costs by 80% through intelligent caching and incremental updates.",
+      "year": "May 2025 - July 2025"
+    },
+    {
+      "name": "Legal Document Assistant",
+      "description": "Full-stack app for document automation that detects and fills .docx placeholders through conversational AI with smart field matching and real-time progress tracking.",
+      "tech_stack": ["React 19", "TypeScript", "FastAPI", "OpenAI GPT-4 Mini"],
+      "year": "September 2025 - December 2025"
+    },
+    {
+      "name": "COVID-19 Outcomes & Vaccine Uptake Prediction",
+      "description": "Predictive models to estimate COVID-19 test positivity and vaccine uptake from 4,000+ survey observations.",
+      "tech_stack": ["Python", "scikit-learn", "XGBoost", "Random Forest", "MLP"],
+      "impact": "Achieved R2 = 0.879. Translated statistical findings into actionable public health strategies.",
+      "year": "January 2025 - March 2025"
+    }
+  ],
+  "awards": [
+    "Super Achievers Award - VIT (Electric Solar Vehicle Championship)",
+    "Above and Beyond Award - KPMG (Smart Journal Entry Testing Tool)",
+    "Super Team Award - KPMG (Digital Transformation Project)"
+  ],
+  "looking_for": "AI Engineer roles building real products powered by LLMs and multi-agent systems",
+  "open_to": ["full-time", "remote", "hybrid", "Pittsburgh-based"],
+  "not_interested_in": ["pure reporting roles with no ML component", "roles with no engineering depth"]
+}
