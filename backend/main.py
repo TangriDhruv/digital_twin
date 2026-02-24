@@ -3,8 +3,6 @@ main.py
 -------
 App entry point. Creates the FastAPI app, registers middleware,
 wires the lifespan, and mounts routes.
-
-This file should stay minimal — it only composes pieces together.
 All logic lives in routes.py, dependencies.py, schemas.py.
 
 Usage:
@@ -49,6 +47,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",   # Vite default
         "http://localhost:3000",   # CRA default
+        "https://digital-twin-wine.vercel.app/",
     ],
     allow_methods=["*"],
     allow_headers=["*"],
