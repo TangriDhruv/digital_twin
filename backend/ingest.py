@@ -11,16 +11,12 @@ Usage:
 import logging
 from pathlib import Path
 from collections import Counter
-
-from config import (
-    DOCS_DIR,
-    PROFILE_PATH,
-    LOG_FORMAT,
-    LOG_LEVEL,
-)
+from dotenv import load_dotenv
+load_dotenv()
+from config import DOCS_DIR, PROFILE_PATH, LOG_FORMAT, LOG_LEVEL
 from loaders import BaseLoader, JSONProfileLoader, MarkdownLoader
 from github_loader import GitHubLoader
-from embedder import MPNetEmbedder
+from embedder import OpenAIEmbedder
 from store import FAISSStore
 
 logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
@@ -45,24 +41,18 @@ def print_summary(chunks: list[dict]) -> None:
 
 
 def run_ingestion() -> None:
-    """
-    Full ingestion pipeline. Called at startup and by the scheduler.
-    Exported as a function so dependencies.py can call it directly.
-    """
     log.info("Starting ingestion pipeline...")
 
     loaders: list[tuple[BaseLoader, Path | None]] = [
-        # Static personal data
         (JSONProfileLoader(), PROFILE_PATH),
         *[(MarkdownLoader(), md) for md in sorted(DOCS_DIR.glob("*.md"))],
-        # Live GitHub data — path=None because it fetches from API
         (GitHubLoader(), None),
     ]
 
     all_chunks = collect_chunks(loaders)
     log.info(f"Total chunks collected: {len(all_chunks)}")
 
-    embedder   = MPNetEmbedder()
+    embedder   = OpenAIEmbedder()
     embeddings = embedder.encode([c["text"] for c in all_chunks])
 
     store = FAISSStore()

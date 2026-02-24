@@ -20,9 +20,10 @@ METADATA_PATH = INDEX_DIR / "metadata.pkl"
 
 # ── Embedding model ───────────────────────────────────────────────────────────
 
-EMBEDDING_MODEL     = "sentence-transformers/all-MiniLM-L6-v2"
-EMBEDDING_BATCH_SIZE = 32
-NORMALIZE_EMBEDDINGS = True   # enables cosine similarity via dot product
+EMBEDDING_MODEL      = "text-embedding-3-small"
+EMBEDDING_DIMENSIONS = 1536
+EMBEDDING_BATCH_SIZE = 100
+NORMALIZE_EMBEDDINGS = True   # L2 normalize for cosine similarity via dot product
 
 # ── Chunking ──────────────────────────────────────────────────────────────────
 

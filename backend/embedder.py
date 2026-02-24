@@ -1,79 +1,54 @@
 """
 embedder.py
 -----------
-Handles loading the embedding model and encoding text into vectors.
+Embeds text using OpenAI's text-embedding-3-small model.
 """
 
 import logging
-from abc import ABC, abstractmethod
-
+import os
 import numpy as np
-from sentence_transformers import SentenceTransformer
-
-from config import EMBEDDING_MODEL, EMBEDDING_BATCH_SIZE, NORMALIZE_EMBEDDINGS
+from abc import ABC, abstractmethod
+from openai import OpenAI
 
 log = logging.getLogger(__name__)
 
 
 class BaseEmbedder(ABC):
-    """Abstract embedder — all embedders must implement encode()."""
-
-    @property
-    @abstractmethod
-    def dimension(self) -> int:
-        """Embedding vector dimension. Required for FAISS index creation."""
-        ...
-
     @abstractmethod
     def encode(self, texts: list[str]) -> np.ndarray:
-        """
-        Encode a list of strings into a float32 numpy array.
-        Shape: (len(texts), self.dimension)
-        """
-        ...
+        pass
 
 
-class MPNetEmbedder(BaseEmbedder):
+class OpenAIEmbedder(BaseEmbedder):
     """
-    Embedder using sentence-transformers/all-mpnet-base-v2.
-    Embeddings are L2-normalized so inner product == cosine similarity.
-    Lazy-loads the model on first call to encode().
+    Uses OpenAI text-embedding-3-small.
     """
 
-    def __init__(
-        self,
-        model_name: str = EMBEDDING_MODEL,
-        batch_size: int = EMBEDDING_BATCH_SIZE,
-        normalize: bool = NORMALIZE_EMBEDDINGS,
-    ):
-        self._model_name = model_name
-        self._batch_size = batch_size
-        self._normalize  = normalize
-        self._model: SentenceTransformer | None = None
-        self._dim: int | None = None
-
-    def _load_model(self) -> SentenceTransformer:
-        if self._model is None:
-            log.info(f"Loading embedding model: {self._model_name}")
-            self._model = SentenceTransformer(self._model_name)
-            # Probe dimension with a dummy encode
-            probe = self._model.encode(["probe"], normalize_embeddings=self._normalize)
-            self._dim = probe.shape[1]
-            log.info(f"Model loaded — embedding dim: {self._dim}")
-        return self._model
-
-    @property
-    def dimension(self) -> int:
-        self._load_model()
-        return self._dim
+    def __init__(self, model: str = "text-embedding-3-small"):
+        self._model  = model
+        self._client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     def encode(self, texts: list[str]) -> np.ndarray:
-        model = self._load_model()
-        log.info(f"Encoding {len(texts)} chunks (batch_size={self._batch_size})")
-        embeddings = model.encode(
-            texts,
-            batch_size=self._batch_size,
-            show_progress_bar=True,
-            normalize_embeddings=self._normalize,
-        )
-        return np.array(embeddings).astype("float32")
+        log.info(f"Embedding {len(texts)} texts via OpenAI")
+
+        
+        texts = [t.replace("\n", " ") for t in texts]
+
+        all_embeddings = []
+        batch_size = 100
+
+        for i in range(0, len(texts), batch_size):
+            batch    = texts[i:i + batch_size]
+            response = self._client.embeddings.create(
+                input=batch,
+                model=self._model,
+            )
+            batch_embeddings = [item.embedding for item in response.data]
+            all_embeddings.extend(batch_embeddings)
+
+        embeddings = np.array(all_embeddings, dtype=np.float32)
+
+        # L2 normalize so dot product = cosine similarity
+        norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
+        norms = np.where(norms == 0, 1, norms)
+        return embeddings / norms

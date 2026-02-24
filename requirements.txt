@@ -1,5 +1,4 @@
-# Embedding
-sentence-transformers==3.0.1
+#Vector Store
 faiss-cpu>=1.7.4
 
 # Backend
