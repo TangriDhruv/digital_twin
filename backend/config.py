@@ -20,7 +20,7 @@ METADATA_PATH = INDEX_DIR / "metadata.pkl"
 
 # ── Embedding model ───────────────────────────────────────────────────────────
 
-EMBEDDING_MODEL     = "sentence-transformers/all-mpnet-base-v2"
+EMBEDDING_MODEL     = "sentence-transformers/all-MiniLM-L6-v2"
 EMBEDDING_BATCH_SIZE = 32
 NORMALIZE_EMBEDDINGS = True   # enables cosine similarity via dot product
 
