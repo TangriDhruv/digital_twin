@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+const API_BASE = import.meta.env.VITE_API_URL ?? ''
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -168,8 +169,7 @@ export default function App() {
     try {
       // History = all messages so far (excludes the streaming placeholder)
       const history = messages.map(m => ({ role: m.role, content: m.content }))
-
-      const response = await fetch('/chat', {
+      const response = await fetch(`${API_BASE}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userText, history }),
