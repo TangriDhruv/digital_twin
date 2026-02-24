@@ -1,6 +1,6 @@
 # Embedding
 sentence-transformers==3.0.1
-faiss-cpu==1.8.0
+faiss-cpu>=1.7.4
 
 # Backend
 fastapi==0.115.0
