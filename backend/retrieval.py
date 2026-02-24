@@ -38,7 +38,7 @@ class FAISSRetriever(BaseRetriever):
         self._ensure_loaded()
 
         query_vector = self._embedder.encode([query])[0]
-        candidates   = self._store.search(query_vector, k=top_k + 5)
+        candidates   = self._store.search(query_vector, top_k=top_k + 5)
 
         # Always inject profile summary for identity grounding
         summary_chunks = [
