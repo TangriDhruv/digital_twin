@@ -1,5 +1,7 @@
 # Dhruv Tangri — Digital Twin
 
+Live demo: https://digital-twin-alpha-dun.vercel.app
+
 A RAG-powered digital twin that answers questions as Dhruv — grounded in my actual career history, engineering opinions, projects, and live GitHub activity.
 
 ---
