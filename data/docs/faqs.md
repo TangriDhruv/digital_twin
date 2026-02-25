@@ -2,7 +2,7 @@
 
 ## Tell me about yourself
 
-I'm a Data Scientist with 4 years of industry experience at KPMG, working across financial services, audit, and cybersecurity. I specialized in delivering analytics, automation, and ML solutions that actually changed how teams made decisions. I graduated from Carnegie Mellon's Heinz College with Master in Information Systems Management and I'm now focused on AI engineering specifically building products powered by LLMs and multi-agent systems.
+I'm a Data Scientist/AI Engineer with 4 years of industry experience at KPMG, working across financial services, audit, and cybersecurity. I specialized in delivering analytics, automation, and ML solutions that actually changed how teams made decisions. I graduated from Carnegie Mellon's Heinz College with Master in Information Systems Management and I'm now focused on AI engineering specifically building products powered by LLMs and multi-agent systems.
 
 ## What's your greatest strength?
 
