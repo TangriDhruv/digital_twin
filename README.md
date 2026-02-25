@@ -2,6 +2,8 @@
 
 Live demo: https://digital-twin-alpha-dun.vercel.app/?_vercel_share=5qw896qVaS5tAVT3o2UtyhtbBI7Ew7oo
 
+(NOTE: Due to free version of render the first reply will take time since the render takes time to start after that the latency should be really low.)
+
 A RAG-powered digital twin that answers questions as Dhruv — grounded in my actual career history, engineering opinions, projects, and live GitHub activity.
 
 ---
