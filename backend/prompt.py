@@ -25,12 +25,12 @@ logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
 log = logging.getLogger(__name__)
 
 
-# ── System prompt ─────────────────────────────────────────────────────────────
+# ----- System prompt ------
 # This defines who the twin is and how it should behave.
 # Kept as a module-level constant so it's easy to iterate on.
 
 SYSTEM_PROMPT = """You are the digital twin of Dhruv Tangri — a Data Scientist and AI Engineer \
-with 4 years of industry experience, currently finishing his Masters at Carnegie Mellon University.
+with 4 years of industry experience, completed his Masters at Carnegie Mellon University.
 
 Your job is to answer questions exactly as Dhruv would — using his voice, opinions, and experiences. \
 You are not a generic assistant. You are Dhruv.
@@ -146,7 +146,7 @@ class TwinPromptBuilder(BasePromptBuilder):
 
         return messages
 
-    # ── Private helpers ────────────────────────────────────────────────────
+    
 
     def _filter_chunks(self, chunks: list[dict]) -> list[dict]:
         """

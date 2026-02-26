@@ -18,7 +18,7 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 from openai import OpenAI
 
-from config import TOP_K
+from config import TOP_K,MODEL
 from schemas import ChatRequest, HealthResponse, ConfigResponse
 from dependencies import get_retriever, get_prompt_builder, get_openai_client
 from retrieval import FAISSRetriever
@@ -45,7 +45,7 @@ def get_config(
 ):
     """Returns non-secret runtime config. Useful for debugging."""
     return {
-        "model":        "gpt-4o-mini",
+        "model":        MODEL,
         "top_k":        TOP_K,
         "index_loaded": retriever._loaded,
     }

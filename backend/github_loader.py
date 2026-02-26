@@ -51,7 +51,7 @@ class GitHubLoader(BaseLoader):
         self._max_commits = max_commits
         self._api_base    = api_base
         self._token       = os.getenv("GITHUB_TOKEN")
-        self._chunker     = ParagraphChunker()   # reuse existing chunker for READMEs
+        self._chunker     = ParagraphChunker()  
 
     def load(self, path: Path = _DUMMY_PATH) -> list[dict]:
         log.info(f"Fetching GitHub data for @{self._username}...")
@@ -102,7 +102,7 @@ class GitHubLoader(BaseLoader):
             with urllib.request.urlopen(req, timeout=10) as resp:
                 return json.loads(resp.read().decode())
         except urllib.error.HTTPError as e:
-            if e.code != 404:   # 404 is expected for repos without README
+            if e.code != 404:   
                 log.warning(f"GitHub API {e.code} → {url}")
             return None
         except Exception as e:
@@ -220,11 +220,7 @@ class GitHubLoader(BaseLoader):
         if not raw:
             return []
 
-        # Light cleanup — remove markdown image tags and HTML tags
-        # but keep headings and text so context is preserved
         cleaned = self._clean_markdown(raw)
-
-        # Reuse ParagraphChunker — same logic as markdown docs
         text_chunks = self._chunker.chunk(cleaned)
 
         chunks = []

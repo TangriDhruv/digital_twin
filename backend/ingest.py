@@ -39,17 +39,18 @@ def collect_chunks(loaders: list[tuple[BaseLoader, Path | None]]) -> list[dict]:
 
 def print_summary(chunks: list[dict]) -> None:
     counts = Counter(c["topic"] for c in chunks)
-    print("\n── Ingestion Summary ─────────────────────────────")
+    
+    log.info("── Ingestion Summary ─────────────────────────────")
     for topic, count in sorted(counts.items()):
-        print(f"  {topic:<40} {count} chunks")
-    print(f"  {'TOTAL':<40} {len(chunks)} chunks")
+        log.info(f"  {topic:<40} {count} chunks")
+    log.info(f"  {'TOTAL':<40} {len(chunks)} chunks")
 
     redacted = [c for c in chunks if c.get("pii_redacted")]
     if redacted:
-        print(f"\n  ── PII Redacted in {len(redacted)} chunks ──────────")
+        log.info(f"  ── PII Redacted in {len(redacted)} chunks ──────────")
         for c in redacted:
-            print(f"  [{c.get('topic', '?')} / {c.get('section', '?')}] → {c['pii_redacted']}")
-    print("──────────────────────────────────────────────────\n")
+            log.info(f"  [{c.get('topic', '?')} / {c.get('section', '?')}] → {c['pii_redacted']}")
+    log.info("──────────────────────────────────────────────────")
 
 
 def run_ingestion() -> None:

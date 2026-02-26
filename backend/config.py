@@ -36,9 +36,12 @@ CHUNK_OVERLAP = 50    # word overlap between consecutive chunks
 # cosine similarity when embeddings are normalized
 FAISS_INDEX_TYPE = "IndexFlatIP"
 
-# ── Retrieval (used later in retrieval.py) ────────────────────────────────────
+# ── Retrieval  ────────────────────────────────────
 
 TOP_K = 5   # number of chunks to retrieve per query
+
+# ── LLM model ────────────────────────────────────
+MODEL = "gpt-4o-mini"
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 
