@@ -74,9 +74,7 @@ frontend/
 
 ---
 
-## Phase 2: Data Integrations (Option 1)
-
-### GitHub Integration
+## GitHub Integration
 
 `github_loader.py` fetches live data from the GitHub REST API on every ingestion run. Three endpoints per repo:
 
@@ -275,11 +273,11 @@ Note: Render free tier spins down after 15 minutes of inactivity. First request 
 
 **Tradeoffs made:**
 
-- **OpenAI embeddings over local model** — free tier has 512MB RAM, all-MiniLM-L6-v2 alone uses ~200MB leaving nothing for the server. API-based embeddings have zero memory footprint.
+- **OpenAI embeddings over local model** — Offloads embedding computation entirely to the API, eliminating local memory overhead. A model like all-MiniLM-L6-v2 requires ~200MB at runtime; at the scale of this dataset, API-based embeddings are cost-negligible and the simpler operational trade-off.
 - **FAISS over managed vector DB** — zero infrastructure for a single-user twin. Pinecone/Milvus add operational overhead not justified at 90 chunks.
 - **Dense search only over hybrid** — 90 conversational chunks retrieve accurately with vector search alone. BM25 adds value at scale or for domain-specific terminology (e.g. regulation numbers in RegHealth Navigator).
-- **Index committed to repo** — avoids OOM during ingestion on free tier. Trade-off: GitHub data is as fresh as last local ingest + push.
-- **No auth implemented** — deliberate scope decision. FastAPI `Depends()` architecture makes it a clean addition without changing any route logic.
+- **Index committed to repo** —  The FAISS index is pre-built and version-controlled so the application is immediately queryable on startup. This avoids requiring users to run ingestion.py as a prerequisite before the frontend can serve responses, keeping the setup path as frictionless as possible.
+
 
 **Next steps:**
 
