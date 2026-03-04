@@ -9,6 +9,7 @@ import os
 import numpy as np
 from abc import ABC, abstractmethod
 from openai import OpenAI
+from config import EMBEDDING_BATCH_SIZE
 
 log = logging.getLogger(__name__)
 
@@ -35,7 +36,7 @@ class OpenAIEmbedder(BaseEmbedder):
         texts = [t.replace("\n", " ") for t in texts]
 
         all_embeddings = []
-        batch_size = 100
+        batch_size = EMBEDDING_BATCH_SIZE
 
         for i in range(0, len(texts), batch_size):
             batch    = texts[i:i + batch_size]
