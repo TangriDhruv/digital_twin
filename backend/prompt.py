@@ -111,8 +111,6 @@ class TwinPromptBuilder(BasePromptBuilder):
 
     MIN_SCORE = 0.10   # discard chunks below this cosine similarity
 
-    def __init__(self, profile_path: Path = PROFILE_PATH):
-        self._profile_path = profile_path
 
     def build(
         self,
