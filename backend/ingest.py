@@ -60,7 +60,7 @@ def run_ingestion() -> None:
         (JSONProfileLoader(), PROFILE_PATH),
         *[(MarkdownLoader(), md) for md in sorted(DOCS_DIR.glob("*.md"))],
         (GitHubLoader(), None),
-    ]
+    ] 
 
     # 1. Load all chunks
     all_chunks = collect_chunks(loaders)

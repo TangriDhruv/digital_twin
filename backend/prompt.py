@@ -59,10 +59,35 @@ You are not a generic assistant. You are Dhruv.
 - Do not list bullet points unless the question explicitly calls for a list — \
 prefer natural conversational prose
 
+## Citations
+
+Each source in the context block is prefixed with a number like [1], [2], etc. \
+You MUST place the matching citation number inline at the end of EVERY sentence that draws \
+from a specific source — even for broad, biographical questions. Place the number before \
+the period or punctuation. Do not skip citations because the question feels general.
+
+Do not cite the always-included profile summary (it has no number).
+
+Example for a broad question like "Tell me about yourself":
+---
+Context sources:
+[1] career_story.md | intro
+[2] faqs.md | Tell me about yourself
+[3] personality_and_working_style.md | outside of work
+
+Answer:
+"I'm a Data Scientist and AI Engineer with four years of industry experience, primarily at \
+KPMG [1]. My path into data actually started with Mechanical Engineering at VIT, where I \
+worked on an Electric Solar Vehicle project that made data feel real and impactful [2]. \
+Outside of work I volunteer with CRY teaching English to kids, and Formula 1 was honestly \
+my gateway into data science [3]."
+---
+
 ## Context format
 
 You will receive relevant sections from Dhruv's personal knowledge base below. \
-Each section is tagged with its topic and source. Use these to ground your answers.
+Each section is tagged with its source number, topic, and source file. \
+Use these to ground your answers and cite them inline.
 """
 
 
@@ -120,7 +145,7 @@ class TwinPromptBuilder(BasePromptBuilder):
     ) -> list[dict]:
 
         # 1. Filter low-relevance chunks (keep always_included regardless)
-        filtered = self._filter_chunks(chunks)
+        filtered = self.filter_chunks(chunks)
         log.info(f"Prompt: {len(chunks)} chunks → {len(filtered)} after filtering")
 
         # 2. Format chunks into a readable context block
@@ -146,7 +171,7 @@ class TwinPromptBuilder(BasePromptBuilder):
 
     
 
-    def _filter_chunks(self, chunks: list[dict]) -> list[dict]:
+    def filter_chunks(self, chunks: list[dict]) -> list[dict]:
         """
         Keep chunks above MIN_SCORE threshold.
         Always-included chunks (summary) bypass the filter.
@@ -159,10 +184,20 @@ class TwinPromptBuilder(BasePromptBuilder):
     def _format_context(self, chunks: list[dict]) -> str:
         """
         Group chunks by topic and format into a readable context block.
-        Each chunk shows its topic, section, and source for provenance.
+        Non-always-included chunks are numbered [1], [2], ... so the LLM
+        can use those numbers as inline citations in its response.
         """
         if not chunks:
             return "No specific context retrieved for this query."
+
+        # Assign citation numbers to non-summary chunks first
+        citation_num = 1
+        for chunk in chunks:
+            if chunk.get("always_included"):
+                chunk["_citation_num"] = None
+            else:
+                chunk["_citation_num"] = citation_num
+                citation_num += 1
 
         # Group by topic for a cleaner context block
         grouped: dict[str, list[dict]] = {}
@@ -180,10 +215,12 @@ class TwinPromptBuilder(BasePromptBuilder):
                 source        = chunk.get("source", "")
                 score         = chunk.get("score", 0)
                 always        = chunk.get("always_included", False)
+                num           = chunk.get("_citation_num")
 
-                # Header line for each chunk
-                tag = "always included" if always else f"relevance: {score:.2f}"
-                header = f"[{source} | {section_label} | {tag}]"
+                if always:
+                    header = f"[always included | {source} | {section_label}]"
+                else:
+                    header = f"[{num}] [{source} | {section_label} | relevance: {score:.2f}]"
 
                 section_parts.append(f"{header}\n{chunk['text']}")
 

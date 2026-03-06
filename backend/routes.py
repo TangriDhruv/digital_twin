@@ -125,6 +125,24 @@ async def _stream(
 
         yield f"data: {json.dumps({'done': True})}\n\n"
 
+        # Emit citations — filtered chunks, numbered to match inline [N] in the response
+        filtered = prompt_builder.filter_chunks(chunks)
+        citations = []
+        citation_num = 1
+        for c in filtered:
+            if c.get("always_included"):
+                continue
+            citations.append({
+                "index":   citation_num,
+                "source":  c.get("source", ""),
+                "section": c.get("section", ""),
+                "topic":   c.get("topic", ""),
+                "score":   round(c.get("score", 0), 2),
+            })
+            citation_num += 1
+        if citations:
+            yield f"data: {json.dumps({'citations': citations})}\n\n"
+
     except FileNotFoundError:
         log.error("FAISS index not found")
         yield f"data: {json.dumps({'error': 'Index not found. Run python backend/ingest.py first.'})}\n\n"

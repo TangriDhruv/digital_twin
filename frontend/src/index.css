@@ -506,6 +506,74 @@ html, body, #root {
   letter-spacing: 0.05em;
 }
 
+/* ── Citations ── */
+.citations-block {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.citations-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 0;
+  transition: color 0.15s;
+}
+
+.citations-toggle:hover { color: var(--amber); }
+
+.citations-icon {
+  color: var(--amber);
+  font-size: 10px;
+}
+
+.citations-list {
+  list-style: none;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-left: 1px solid var(--border-lit);
+  padding-left: 12px;
+}
+
+.citation-item {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.citation-num {
+  color: var(--amber);
+  flex-shrink: 0;
+}
+
+.citation-source {
+  color: var(--text-mid);
+}
+
+.citation-section {
+  color: var(--text-dim);
+}
+
+.citation-score {
+  margin-left: auto;
+  color: var(--amber-dim);
+  font-size: 10px;
+  opacity: 0.8;
+}
+
 /* ── Error ── */
 .error-toast {
   background: #150a0a;

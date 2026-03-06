@@ -3,17 +3,27 @@ const API_BASE = import.meta.env.VITE_API_URL ?? ''
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
+interface Citation {
+  index: number
+  source: string
+  section: string
+  topic: string
+  score: number
+}
+
 interface Message {
   id: number
   role: 'user' | 'assistant'
   content: string
   streaming?: boolean
+  citations?: Citation[]
 }
 
-interface SSEToken  { token: string }
-interface SSEDone   { done: boolean }
-interface SSEError  { error: string }
-type SSEEvent = SSEToken | SSEDone | SSEError
+interface SSEToken     { token: string }
+interface SSEDone      { done: boolean }
+interface SSEError     { error: string }
+interface SSECitations { citations: Citation[] }
+type SSEEvent = SSEToken | SSEDone | SSEError | SSECitations
 
 // ── Constants ──────────────────────────────────────────────────────────────
 
@@ -89,6 +99,30 @@ function ThinkingIndicator() {
   )
 }
 
+function Citations({ citations }: { citations: Citation[] }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="citations-block">
+      <button className="citations-toggle" onClick={() => setOpen(o => !o)}>
+        <span className="citations-icon">{open ? '▾' : '▸'}</span>
+        {citations.length} source{citations.length !== 1 ? 's' : ''} cited
+      </button>
+      {open && (
+        <ul className="citations-list">
+          {citations.map((c) => (
+            <li key={c.index} className="citation-item">
+              <span className="citation-num">[{c.index}]</span>
+              <span className="citation-source">{c.source}</span>
+              {c.section && <span className="citation-section">· {c.section}</span>}
+              <span className="citation-score">{(c.score * 100).toFixed(0)}% match</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 function ChatMessage({ msg }: { msg: Message }) {
   return (
     <div className={`message ${msg.role}`}>
@@ -99,6 +133,9 @@ function ChatMessage({ msg }: { msg: Message }) {
         {msg.content}
         {msg.streaming && <span className="cursor" />}
       </div>
+      {msg.role === 'assistant' && msg.citations && msg.citations.length > 0 && (
+        <Citations citations={msg.citations} />
+      )}
     </div>
   )
 }
@@ -207,6 +244,12 @@ export default function App() {
             if ('done' in data && data.done) {
               setMessages(prev => prev.map(m =>
                 m.id === assistantId ? { ...m, streaming: false } : m
+              ))
+            }
+
+            if ('citations' in data) {
+              setMessages(prev => prev.map(m =>
+                m.id === assistantId ? { ...m, citations: data.citations } : m
               ))
             }
 

@@ -21,14 +21,12 @@ Intentionally NOT redacted (safe for a professional twin):
   - Organizations   — KPMG, Goldman Sachs are work context
   - Dates           — work history requires dates
 
-SOLID:
-  - S: Only responsible for PII detection and redaction
-  - O: Extend REDACT_ENTITIES list to add new entity types
+
 """
 
 import logging
 import re
-
+from presidio_anonymizer.entities import OperatorConfig
 log = logging.getLogger(__name__)
 
 # ── Entities to redact ────────────────────────────────────────────────────────
@@ -164,7 +162,7 @@ class PIIRedactor:
 
     def _presidio_redact(self, text: str) -> tuple[str, list[str]]:
         """Run Presidio analyzer + anonymizer on text."""
-        from presidio_anonymizer.entities import OperatorConfig
+        
 
         results = self._analyzer.analyze(
             text=text,
